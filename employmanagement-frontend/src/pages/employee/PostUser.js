@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const PostUser = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -19,7 +20,7 @@ export const PostUser = () => {
         })
     }
 
-    const navigate = useNavigate();
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();

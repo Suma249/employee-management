@@ -46,4 +46,21 @@ public class EmployeeController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("/employee/{id}")
+	public ResponseEntity<?> getEmployeeById(@PathVariable Long id) {
+		Employee emp=service.getEmployeeById(id);
+		if(emp==null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(emp);
+	}
+	
+	public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody Employee emp){
+		Employee updatedEmp=service.updateEmployee(id, emp);
+		if(updatedEmp == null)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		return ResponseEntity.ok(updatedEmp);
+	}
+	
 }
