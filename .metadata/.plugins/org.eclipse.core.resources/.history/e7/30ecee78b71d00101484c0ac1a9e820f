@@ -1,0 +1,10 @@
+package com.employee.management.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.employee.management.entity.User;
+
+public interface UserRepo extends JpaRepository<User, Long>{
+
+	public String findByUsername(String username);
+}

@@ -1,0 +1,29 @@
+package com.employee.management.service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import com.employee.management.entity.Employee;
+import com.employee.management.repo.EmployeeRepo;
+
+public class CustomUserDetailsService implements UserDetailsService {
+
+	@Autowired
+	private EmployeeRepo repo;
+	
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Employee emp=repo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("username not found"));
+		List<SimpleGrantedAuthority> authorities=emp.getRoles().stream()
+				.map(role -> new SimpleGrantedAuthority("ROLE_"+role.getRole()))
+				.collect(Collectors.toList());
+		return new org.springframework.security.core.userdetails.User(emp.getEmail(), emp.getPassword(), true, true, true, true, authorities);
+	}
+
+}

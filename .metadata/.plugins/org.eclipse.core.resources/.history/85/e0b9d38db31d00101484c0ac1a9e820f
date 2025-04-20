@@ -1,0 +1,28 @@
+package com.employee.management.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+
+@EnableWebSecurity
+@Configuration
+public class SecurityConfig{
+	
+	@Bean
+	public SecurityFilterChain securityFilterChian(HttpSecurity http) throws Exception {
+		return http
+				.csrf().disable()
+				.authorizeHttpRequests()
+				.requestMatchers("/dashboard").permitAll()
+				.and()
+				.authorizeHttpRequests()
+				.requestMatchers("/createEmployee").authenticated()
+				.and()
+				.formLogin(Customizer.withDefaults())
+				.build();
+	}
+}

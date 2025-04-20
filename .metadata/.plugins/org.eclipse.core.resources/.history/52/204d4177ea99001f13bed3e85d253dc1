@@ -1,7 +1,0 @@
-package com.employee.management.repo;
-
-
-@Repository
-public class EmployeeRepo  {
-
-}
